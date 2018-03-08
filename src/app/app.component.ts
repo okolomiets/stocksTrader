@@ -9,6 +9,4 @@ import { Component, ViewEncapsulation } from '@angular/core';
   styleUrls: ['./app.component.css'],
   encapsulation: ViewEncapsulation.None,
 })
-export class AppComponent {
-  title = 'Stocks';
-}
+export class AppComponent { }

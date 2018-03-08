@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { Routes, RouterModule } from '@angular/router';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { SharedModule } from './shared/shared.module';
@@ -12,6 +12,8 @@ import { HeaderComponent } from './components/header/header.component';
 import { BalanceComponent } from './components/balance/balance.component';
 import { MarketsComponent } from './components/markets/markets.component';
 import { StocksComponent } from './components/stocks/stocks.component';
+
+import { AppService } from './app.service';
 
 // routes
 export const ROUTES: Routes = [
@@ -48,12 +50,15 @@ export const ROUTES: Routes = [
   imports: [
     BrowserModule,
     HttpClientModule,
+    FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
     RouterModule.forRoot(ROUTES, { useHash: true }),
     SharedModule
   ],
-  providers: [],
+  providers: [
+    AppService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
