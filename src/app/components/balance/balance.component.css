@@ -1,0 +1,9 @@
+.app-balance {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.app-balance mat-icon {
+  margin-left: 10px;
+}

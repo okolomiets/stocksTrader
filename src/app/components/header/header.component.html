@@ -1,11 +1,10 @@
-<p>
-  header works!
-</p>
-<app-user></app-user>
-<div>
-  <ul>
-    <li><a [routerLink]="['/markets']">Markets</a></li>
-    <li><a [routerLink]="['/stocks']">Stocks</a></li>
-  </ul>
-</div>
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <mat-icon>assessment</mat-icon>
+    <button mat-button [routerLink]="['/markets']">Markets</button>
+    <button mat-button [routerLink]="['/stocks']">Stocks</button>
+    <span class="flex-fill-space-right"></span>
+    <app-balance></app-balance>
+  </mat-toolbar-row>
+</mat-toolbar>
 

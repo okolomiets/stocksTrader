@@ -9,7 +9,7 @@ import { SharedModule } from './shared/shared.module';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
-import { UserComponent } from './components/user/user.component';
+import { BalanceComponent } from './components/balance/balance.component';
 import { MarketsComponent } from './components/markets/markets.component';
 import { StocksComponent } from './components/stocks/stocks.component';
 
@@ -41,7 +41,7 @@ export const ROUTES: Routes = [
   declarations: [
     AppComponent,
     HeaderComponent,
-    UserComponent,
+    BalanceComponent,
     MarketsComponent,
     StocksComponent
   ],
