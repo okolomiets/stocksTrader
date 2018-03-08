@@ -4,7 +4,9 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
+    "json-serv": "json-server --watch stocks.json --routes routes.json",
     "start": "ng serve",
+    "start-with-proxy": "ng serve --proxy-config proxy.conf.json",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
