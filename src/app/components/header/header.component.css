@@ -1,4 +1,4 @@
-app-header {
+.app-header {
   position: fixed;
   top: 0;
   left: 0;
@@ -6,3 +6,6 @@ app-header {
   z-index: 2;
 }
 
+button.mat-button.active {
+  color: wheat;
+}

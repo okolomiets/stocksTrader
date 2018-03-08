@@ -1,10 +1,13 @@
-<mat-toolbar color="primary">
-  <mat-toolbar-row>
-    <mat-icon>assessment</mat-icon>
-    <button mat-button [routerLink]="['/markets']">Markets</button>
-    <button mat-button [routerLink]="['/stocks']">Stocks</button>
-    <span class="flex-fill-space-right"></span>
-    <app-balance></app-balance>
-  </mat-toolbar-row>
-</mat-toolbar>
+<div class="app-header">
+  <mat-toolbar color="primary">
+    <mat-toolbar-row>
+      <mat-icon>assessment</mat-icon>
+      <button mat-button routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" [routerLink]="['/markets']">Markets</button>
+      <button mat-button routerLinkActive="active" [routerLink]="['/stocks']">Stocks</button>
+      <span class="flex-fill-space-right"></span>
+      <app-balance></app-balance>
+    </mat-toolbar-row>
+  </mat-toolbar>
+</div>
+
 
