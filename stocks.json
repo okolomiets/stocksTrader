@@ -1,4 +1,13 @@
 {
+  "user": [
+    {
+      "id": 1,
+      "firstName": "John",
+      "lastName": "Smith",
+      "photoUrl": "assets/user.png",
+      "balance": 10000
+    }
+  ],
   "markets": [{
     "id": 1,
     "name": "MaxPoint Interactive, Inc.",
