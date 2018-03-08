@@ -1,32 +1,34 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AppService } from '../../app.service';
 import { Market } from '../../models/market.model';
-import { MatTableDataSource, MatSort } from '@angular/material';
+import { DataSource } from '@angular/cdk/collections';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-markets',
   templateUrl: './markets.component.html',
   styleUrls: ['./markets.component.css']
 })
-export class MarketsComponent implements OnInit, AfterViewInit {
-  markets: MatTableDataSource<Market>;
-  displayedColumns: string[];
-  @ViewChild(MatSort) sort: MatSort;
+export class MarketsComponent implements OnInit {
+  displayedColumns = ['name', 'category', 'price', 'buy'];
+  markets = new MarketsDataSource(this.appService);
+
   constructor(private appService: AppService) { }
 
-  ngOnInit() {
-    this.displayedColumns = ['name', 'category', 'price', 'buy'];
-  }
-
-  ngAfterViewInit() {
-    this.appService.getMarkets().subscribe((markets: Market[]) => {
-      this.markets = new MatTableDataSource(markets);
-      this.markets.sort = this.sort;
-    });
-  }
+  ngOnInit() {}
 
   buyStocks(id, quantity) {
     console.log('buyStocks', id, quantity);
   }
 
+}
+
+export class MarketsDataSource extends DataSource<Market> {
+  constructor(private appService: AppService) {
+    super();
+  }
+  connect(): Observable<Market[]> {
+    return this.appService.getMarkets();
+  }
+  disconnect() {}
 }
