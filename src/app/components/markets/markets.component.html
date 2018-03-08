@@ -18,10 +18,7 @@
     <ng-container matColumnDef="buy">
       <mat-header-cell *matHeaderCellDef></mat-header-cell>
       <mat-cell *matCellDef="let element">
-        <mat-form-field class="">
-          <input matInput placeholder="quantity" />
-        </mat-form-field>
-        <button mat-button color="primary" (click)="buyStocks(element.id)">BUY</button>
+        <app-buy-stocks (onBuy)="buyStocks($event)" [market]="element"></app-buy-stocks>
       </mat-cell>
     </ng-container>
 

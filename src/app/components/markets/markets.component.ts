@@ -17,8 +17,19 @@ export class MarketsComponent implements OnInit {
 
   ngOnInit() {}
 
-  buyStocks(id, quantity) {
-    console.log('buyStocks', id, quantity);
+  buyStocks(purchase) {
+    purchase.total = Number((purchase.price * purchase.quantity).toFixed(2));
+
+    if (this.appService.userBalance.balance - purchase.total > 0) {
+      this.appService.saveStocks(purchase).subscribe(
+        () => {
+          const newUserBalance = {
+            ...this.appService.userBalance,
+            balance: Number((this.appService.userBalance.balance - purchase.total).toFixed(2))
+          };
+          this.appService.updateBalance(newUserBalance);
+        });
+    }
   }
 
 }

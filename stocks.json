@@ -1,19 +1,18 @@
 {
-  "user": [
+  "user": {
+    "id": 1,
+    "firstName": "John",
+    "lastName": "Smith",
+    "photoUrl": "assets/user.png",
+    "balance": 10000
+  },
+  "markets": [
     {
       "id": 1,
-      "firstName": "John",
-      "lastName": "Smith",
-      "photoUrl": "assets/user.png",
-      "balance": 10000
-    }
-  ],
-  "markets": [{
-    "id": 1,
-    "name": "MaxPoint Interactive, Inc.",
-    "price": "298.90",
-    "category": "Consumer Services"
-  },
+      "name": "MaxPoint Interactive, Inc.",
+      "price": "298.90",
+      "category": "Consumer Services"
+    },
     {
       "id": 2,
       "name": "Jensyn Acquistion Corp.",
@@ -309,5 +308,272 @@
       "category": "Technology"
     }
   ],
-  "stocks": []
+  "stocks": [
+    {
+      "marketId": 1,
+      "price": 298.9,
+      "quantity": 12,
+      "total": 3586.8,
+      "id": 1
+    },
+    {
+      "marketId": 2,
+      "price": 287.63,
+      "quantity": 5,
+      "total": 1438.15,
+      "id": 2
+    },
+    {
+      "marketId": 3,
+      "price": 122.28,
+      "quantity": 10,
+      "total": 1222.8,
+      "id": 3
+    },
+    {
+      "marketId": 4,
+      "price": 362.14,
+      "quantity": 10,
+      "total": 3621.4,
+      "id": 4
+    },
+    {
+      "marketId": 41,
+      "price": 97.65,
+      "quantity": 10,
+      "total": 976.5,
+      "id": 5
+    },
+    {
+      "marketId": 40,
+      "price": 228.64,
+      "quantity": 10,
+      "total": 2286.4,
+      "id": 6
+    },
+    {
+      "marketId": 42,
+      "price": 170.84,
+      "quantity": 10,
+      "total": 1708.4,
+      "id": 7
+    },
+    {
+      "marketId": 37,
+      "price": 203.77,
+      "quantity": 10,
+      "total": 2037.7,
+      "id": 8
+    },
+    {
+      "marketId": 1,
+      "price": 298.9,
+      "quantity": 10,
+      "total": 2989,
+      "id": 9
+    },
+    {
+      "marketId": 2,
+      "price": 287.63,
+      "quantity": 10,
+      "total": 2876.3,
+      "id": 10
+    },
+    {
+      "marketId": 3,
+      "price": 122.28,
+      "quantity": 10,
+      "total": 1222.8,
+      "id": 11
+    },
+    {
+      "marketId": 4,
+      "price": 362.14,
+      "quantity": 10,
+      "total": 3621.4,
+      "id": 12
+    },
+    {
+      "marketId": 6,
+      "price": 255.55,
+      "quantity": 10,
+      "total": 2555.5,
+      "id": 13
+    },
+    {
+      "marketId": 7,
+      "price": 301.91,
+      "quantity": 10,
+      "total": 3019.1,
+      "id": 14
+    },
+    {
+      "marketId": 9,
+      "price": 286.34,
+      "quantity": 10,
+      "total": 2863.4,
+      "id": 15
+    },
+    {
+      "marketId": 12,
+      "price": 329.06,
+      "quantity": 10,
+      "total": 3290.6,
+      "id": 16
+    },
+    {
+      "marketId": 15,
+      "price": 294.82,
+      "quantity": 10,
+      "total": 2948.2,
+      "id": 17
+    },
+    {
+      "marketId": 1,
+      "price": 298.9,
+      "quantity": 20,
+      "total": 5978,
+      "id": 18
+    },
+    {
+      "marketId": 2,
+      "price": 287.63,
+      "quantity": 10,
+      "total": 2876.3,
+      "id": 19
+    },
+    {
+      "marketId": 1,
+      "price": 298.9,
+      "quantity": 10,
+      "total": 2989,
+      "id": 20
+    },
+    {
+      "marketId": 2,
+      "price": 287.63,
+      "quantity": 10,
+      "total": 2876.3,
+      "id": 21
+    },
+    {
+      "marketId": 1,
+      "price": 298.9,
+      "quantity": 10,
+      "total": 2989,
+      "id": 22
+    },
+    {
+      "marketId": 2,
+      "price": 287.63,
+      "quantity": 10,
+      "total": 2876.3,
+      "id": 23
+    },
+    {
+      "marketId": 3,
+      "price": 122.28,
+      "quantity": 10,
+      "total": 1222.8,
+      "id": 24
+    },
+    {
+      "marketId": 5,
+      "price": 98.54,
+      "quantity": 10,
+      "total": 985.4,
+      "id": 25
+    },
+    {
+      "marketId": 5,
+      "price": 98.54,
+      "quantity": 10,
+      "total": 985.4,
+      "id": 26
+    },
+    {
+      "marketId": 7,
+      "price": 301.91,
+      "quantity": 3,
+      "total": 905.73,
+      "id": 27
+    },
+    {
+      "marketId": 1,
+      "price": 298.9,
+      "quantity": 12,
+      "total": 3586.8,
+      "id": 28
+    },
+    {
+      "marketId": 2,
+      "price": 287.63,
+      "quantity": 10,
+      "total": 2876.3,
+      "id": 29
+    },
+    {
+      "marketId": 1,
+      "price": 298.9,
+      "quantity": 10,
+      "total": 2989,
+      "id": 30
+    },
+    {
+      "marketId": 4,
+      "price": 362.14,
+      "quantity": 10,
+      "total": 3621.4,
+      "id": 31
+    },
+    {
+      "marketId": 10,
+      "price": 246.48,
+      "quantity": 5,
+      "total": 1232.4,
+      "id": 32
+    },
+    {
+      "marketId": 8,
+      "price": 217.26,
+      "quantity": 5,
+      "total": 1086.3,
+      "id": 33
+    },
+    {
+      "marketId": 5,
+      "price": 98.54,
+      "quantity": 10,
+      "total": 985.4,
+      "id": 34
+    },
+    {
+      "marketId": 45,
+      "price": 0.1,
+      "quantity": 100,
+      "total": 10,
+      "id": 35
+    },
+    {
+      "marketId": 44,
+      "price": 54.09,
+      "quantity": 1,
+      "total": 54.09,
+      "id": 36
+    },
+    {
+      "marketId": 45,
+      "price": 0.1,
+      "quantity": 20,
+      "total": 2,
+      "id": 37
+    },
+    {
+      "marketId": 45,
+      "price": 0.1,
+      "quantity": 100,
+      "total": 10,
+      "id": 38
+    }
+  ]
 }

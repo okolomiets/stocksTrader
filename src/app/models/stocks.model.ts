@@ -1,7 +1,7 @@
 export interface Stocks {
   id: number;
-  userId: number;
-  market: string;
-  count: number;
-  value: number;
+  marketId: string;
+  price: number;
+  quantity: number;
+  total: number;
 }

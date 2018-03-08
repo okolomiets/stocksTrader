@@ -1,5 +1,5 @@
 <div class="app-balance">
-  <span class="mat-subhead">{{balance | currency}}</span>
+  <span *ngIf="user" class="mat-subhead">{{user.balance | currency}}</span>
   <mat-icon>account_balance_wallet</mat-icon>
 </div>
 

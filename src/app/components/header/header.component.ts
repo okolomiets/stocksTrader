@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { AppService } from '../../app.service';
+import { User } from '../../models/user.model';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
   selector: 'app-header',
@@ -6,10 +9,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-
-  constructor() { }
+  user$: Subject<{}>;
+  constructor(private appService: AppService) { }
 
   ngOnInit() {
+    this.user$ = this.appService.userBalance$;
+    this.appService.getBalance().subscribe((user: User) => {
+      this.appService.userBalance = user;
+      this.appService.userBalance$.next(user);
+    });
   }
 
 }
