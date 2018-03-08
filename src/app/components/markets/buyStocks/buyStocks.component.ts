@@ -26,6 +26,7 @@ export class BuyStocksComponent implements OnInit {
   onClick() {
     const purchase = {
       marketId: this.market.id,
+      market: this.market.name,
       price: Number(this.market.price),
       quantity: this.quantity
     };

@@ -1,6 +1,8 @@
 export interface Stocks {
   id: number;
-  marketId: string;
+  purchased: string;
+  marketId: number;
+  market: string;
   price: number;
   quantity: number;
   total: number;
