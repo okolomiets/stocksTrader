@@ -1,35 +1,100 @@
-import { Component, OnInit } from '@angular/core';
-import { DataSource } from '@angular/cdk/collections';
-import { Observable } from 'rxjs/Observable';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
+import { Subscription } from 'rxjs/Subscription';
 
 import { AppService } from '../../app.service';
 import { Stocks } from '../../models/stocks.model';
+
 
 @Component({
   selector: 'app-stocks',
   templateUrl: './stocks.component.html',
   styleUrls: ['./stocks.component.css']
 })
-export class StocksComponent implements OnInit {
-  displayedColumns = ['id', 'purchased', 'market', 'price', 'quantity', 'total', 'sell'];
-  stocks = new StocksDataSource(this.appService);
+export class StocksComponent implements OnInit, OnDestroy {
+  displayedColumns = ['id', 'lastUpdated', 'market', 'price', 'quantity', 'total', 'sell'];
+  stocks$: Subject<{}>;
+  stocks: Stocks[];
+  getStocksSub: Subscription;
+  updateStocksSub: Subscription;
+  deleteStocksSub: Subscription;
+  getStocksEntitiesSub: Subscription;
+  overallPurchased: Object;
 
   constructor(private appService: AppService) { }
 
-  ngOnInit() {}
-
-  sellStocks(stocks: Stocks) {
-    console.log('sellStocks', stocks);
+  ngOnInit() {
+    this.stocks$ = this.appService.stocks$;
+    this.getStocks();
   }
 
-}
+  getStocks() {
+    this.getStocksSub = this.appService.getStocks().subscribe(stocks => {
+      this.stocks = stocks;
+      this.appService.stocks$.next(stocks);
+      this.getOverallPurchased(stocks);
+    });
+  }
 
-export class StocksDataSource extends DataSource<Stocks> {
-  constructor(private appService: AppService) {
-    super();
+  ngOnDestroy() {
+    this.getStocksSub.unsubscribe();
+
+    if (this.getStocksEntitiesSub) {
+      this.getStocksEntitiesSub.unsubscribe();
+    }
+    if (this.updateStocksSub) {
+      this.updateStocksSub.unsubscribe();
+    }
+    if (this.deleteStocksSub) {
+      this.deleteStocksSub.unsubscribe();
+    }
   }
-  connect(): Observable<Stocks[]> {
-    return this.appService.getStocks();
+
+  getOverallPurchased(stocks) {
+    this.overallPurchased = stocks.reduce((purchased, stock: Stocks) => {
+      purchased.total += stock.total;
+      purchased.quantity += stock.quantity;
+      return purchased ;
+    }, {
+      total: 0,
+      quantity: 0
+    });
+    console.log('this.overallPurchased', this.overallPurchased);
   }
-  disconnect() {}
+
+  sellStocks(sellStocks: Stocks) {
+    const soldTotal = Number((Number(sellStocks.market.price) * sellStocks.quantity).toFixed(2));
+
+    this.getStocksEntitiesSub = this.appService.getStocksEntities().subscribe(stocksEntities => {
+      const oldStocks = stocksEntities[sellStocks.market.id];
+
+      const newStocks: Stocks = {
+        ...oldStocks,
+        quantity: oldStocks.quantity - sellStocks.quantity,
+        total: Number((oldStocks.total - soldTotal).toFixed(2)),
+        lastUpdated: new Date()
+      };
+
+      if (newStocks.quantity === 0) {
+        this.deleteStocksSub = this.appService.deleteStocks(newStocks).subscribe(() => {
+          this.getStocks();
+          this.updateBalance(soldTotal);
+        });
+      } else {
+        this.updateStocksSub = this.appService.updateStocks(newStocks).subscribe(() => {
+          this.getStocks();
+          this.updateBalance(soldTotal);
+        });
+      }
+    });
+  }
+
+  updateBalance(soldTotal) {
+    const newUserBalance = {
+      ...this.appService.userBalance,
+      balance: Number((this.appService.userBalance.balance + soldTotal).toFixed(2))
+    };
+    this.appService.updateBalance(newUserBalance);
+  }
+
 }

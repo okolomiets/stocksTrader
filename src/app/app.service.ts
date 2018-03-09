@@ -7,15 +7,16 @@ import { tap, map, filter, take, switchMap, catchError } from 'rxjs/operators';
 
 import { Market } from './models/market.model';
 import { Stocks } from './models/stocks.model';
-import { Purchase } from './models/purchase.model';
 import { User } from './models/user.model';
 import { Subject } from '../../node_modules/rxjs/Subject';
 
 @Injectable()
 export class AppService {
   userBalance$ = new Subject();
+  stocks$ = new Subject();
   userBalance: User;
   marketsEntities: {[key: number]: Market};
+  stocksEntities: {[key: number]: Stocks};
   constructor(private http: HttpClient) { }
 
   getBalance(): Observable<User> {
@@ -33,7 +34,7 @@ export class AppService {
   getMarkets(): Observable<Market[]> {
     return this.http
       .get<Market[]>('/api/markets').pipe(
-        tap(markets => {
+        tap((markets: Market[]) => {
           this.marketsEntities = this.setMarketEntities(markets);
         }),
         catchError((error: any) => Observable.throw(error))
@@ -45,7 +46,7 @@ export class AppService {
       return of(this.marketsEntities);
     } else {
       return this.getMarkets().pipe(
-        switchMap((markets) => {
+        switchMap((markets: Market[]) => {
           this.marketsEntities = this.setMarketEntities(markets);
           return of(this.marketsEntities);
         })
@@ -58,18 +59,57 @@ export class AppService {
       entities[market.id] = market;
       return entities;
     }, {});
-}
+  }
 
   getStocks(): Observable<Stocks[]> {
     return this.http
       .get<Stocks[]>('/api/stocks').pipe(
+        tap((stocks: Stocks[]) => {
+          this.stocksEntities = this.setStocksEntities(stocks);
+        }),
         catchError((error: any) => Observable.throw(error))
       );
   }
 
-  saveStocks(purchase: Purchase): Observable<Purchase> {
+  getStocksEntities(): Observable<{[key: number]: Stocks}> {
+    if (this.stocksEntities) {
+      return of(this.stocksEntities);
+    } else {
+      return this.getStocks().pipe(
+        switchMap((stocks: Stocks[]) => {
+          this.stocksEntities = this.setStocksEntities(stocks);
+          return of(this.stocksEntities);
+        })
+      );
+    }
+  }
+
+  setStocksEntities(stocks: Stocks[]): {[key: number]: Stocks} {
+    return stocks.reduce((entities, stock: Stocks) => {
+      entities[stock.market.id] = stock;
+      return entities;
+    }, {});
+  }
+
+  saveStocks(stocks: Stocks): Observable<Stocks> {
     return this.http
-      .post<Purchase>('/api/stocks', purchase).pipe(
+      .post<Stocks>('/api/stocks', stocks).pipe(
+        catchError((error: any) => Observable.throw(error))
+      );
+  }
+
+  updateStocks(stocks: Stocks): Observable<Stocks[]> {
+    const url = `/api/stocks/${stocks.id}`;
+    return this.http
+      .put<Stocks>(url, stocks).pipe(
+        catchError((error: any) => Observable.throw(error))
+      );
+  }
+
+  deleteStocks(stocks: Stocks): Observable<Stocks[]> {
+    const url = `/api/stocks/${stocks.id}`;
+    return this.http
+      .delete<Stocks>(url).pipe(
         catchError((error: any) => Observable.throw(error))
       );
   }

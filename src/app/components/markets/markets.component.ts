@@ -20,7 +20,7 @@ export class MarketsComponent implements OnInit {
 
   buyStocks(purchase) {
     purchase.total = Number((Number(purchase.market.price) * purchase.quantity).toFixed(2));
-    purchase.purchased = new Date();
+    purchase.lastUpdated = new Date();
 
     if (this.appService.userBalance.balance - purchase.total > 0) {
       this.appService.saveStocks(purchase).subscribe(

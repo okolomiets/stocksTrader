@@ -1,13 +1,13 @@
 <div class="stocks-container mat-elevation-z8">
-  <mat-table #table [dataSource]="stocks">
+  <mat-table #table [dataSource]="stocks$ | async">
     <ng-container matColumnDef="id">
       <mat-header-cell *matHeaderCellDef> Id </mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="purchased">
-      <mat-header-cell *matHeaderCellDef> Purchased Date </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.purchased | date:'MMM d, y, h:mm:ss a'}} </mat-cell>
+    <ng-container matColumnDef="lastUpdated">
+      <mat-header-cell *matHeaderCellDef> Last Updated </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.lastUpdated | date:'MMM d, y, h:mm:ss a'}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="market">
