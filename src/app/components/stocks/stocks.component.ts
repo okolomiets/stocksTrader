@@ -68,7 +68,7 @@ export class StocksComponent implements OnInit, OnDestroy {
         lastUpdated: new Date()
       };
 
-      if (newStocks.quantity < 0) {
+      if (newStocks.quantity < 0 || newStocks.quantity > oldStocks.quantity) {
         const message = 'Invalid quantity value!';
         const action = 'Dismiss';
         this.snackBar.open(message, action, {
