@@ -50,6 +50,7 @@ export class MarketsComponent implements OnInit, OnDestroy {
 
       this.getStocksEntitiesSub = this.appService.getStocksEntities().subscribe(stocksEntities => {
         const existedStocks = stocksEntities[purchase.market.id];
+
         if (existedStocks) {
           existedStocks.quantity += purchase.quantity;
           existedStocks.total += existedStocks.total;
@@ -58,6 +59,7 @@ export class MarketsComponent implements OnInit, OnDestroy {
             () => {
               this.updateBalance(purchase);
             });
+
         } else {
           this.saveStocksSub = this.appService.saveStocks(purchase).subscribe(
             () => {

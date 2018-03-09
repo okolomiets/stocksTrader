@@ -81,16 +81,12 @@ export class AppService {
   }
 
   getStocksEntities(): Observable<{[key: number]: Stocks}> {
-    if (this.stocksEntities) {
-      return of(this.stocksEntities);
-    } else {
-      return this.getStocks().pipe(
-        switchMap((stocks: Stocks[]) => {
-          this.stocksEntities = this.setStocksEntities(stocks);
-          return of(this.stocksEntities);
-        })
-      );
-    }
+    return this.getStocks().pipe(
+      switchMap((stocks: Stocks[]) => {
+        this.stocksEntities = this.setStocksEntities(stocks);
+        return of(this.stocksEntities);
+      })
+    );
   }
 
   setStocksEntities(stocks: Stocks[]): {[key: number]: Stocks} {
