@@ -18,7 +18,11 @@
     <ng-container matColumnDef="buy">
       <mat-header-cell *matHeaderCellDef></mat-header-cell>
       <mat-cell *matCellDef="let element">
-        <app-buy-stocks (onBuy)="buyStocks($event)" [market]="element"></app-buy-stocks>
+        <app-stocks-control (onSubmit)="buyStocks($event)"
+                            [minQauntity]="0"
+                            [btnLabel]="'BUY'"
+                            [market]="element">
+        </app-stocks-control>
       </mat-cell>
     </ng-container>
 

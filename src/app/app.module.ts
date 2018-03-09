@@ -12,7 +12,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { BalanceComponent } from './components/balance/balance.component';
 import { MarketsComponent } from './components/markets/markets.component';
 import { StocksComponent } from './components/stocks/stocks.component';
-import { BuyStocksComponent } from './components/markets/buyStocks/buyStocks.component';
+import { StocksControlComponent } from './components/stocksControl/stocksControl.component';
 
 import { AppService } from './app.service';
 
@@ -47,7 +47,7 @@ export const ROUTES: Routes = [
     BalanceComponent,
     MarketsComponent,
     StocksComponent,
-    BuyStocksComponent
+    StocksControlComponent
   ],
   imports: [
     BrowserModule,

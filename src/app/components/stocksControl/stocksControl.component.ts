@@ -1,0 +1,39 @@
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Market } from '../../models/market.model';
+
+@Component({
+  selector: 'app-stocks-control',
+  template: `<mat-form-field class="">
+              <input matInput placeholder="quantity"
+                     type="number"
+                     [min]="minQauntity"
+                     [(ngModel)]="quantity"/>
+            </mat-form-field>
+            <button mat-button color="primary" (click)="onClick()" [disabled]="!quantity">{{btnLabel}}</button>
+  `,
+  styleUrls: ['./stocksControl.component.css']
+})
+export class StocksControlComponent implements OnInit {
+  @Input() market: Market;
+  @Input() btnLabel: string;
+  @Input() minQauntity: number;
+  quantity: number;
+  @Output() onSubmit= new EventEmitter<any>();
+
+  constructor() { }
+
+  ngOnInit() {
+  }
+
+  onClick() {
+    const purchase = {
+      marketId: this.market.id,
+      market: this.market.name,
+      price: Number(this.market.price),
+      quantity: this.quantity
+    };
+    this.onSubmit.emit(purchase);
+    this.quantity = null;
+  }
+
+}
