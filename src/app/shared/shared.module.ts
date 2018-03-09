@@ -4,6 +4,9 @@ import { CommonModule } from '@angular/common';
 // material
 import { MaterialModule } from './material.module';
 
+// services
+import { AppDialogsService } from './dialogs.service';
+
 @NgModule({
   declarations: [],
   imports: [
@@ -11,6 +14,8 @@ import { MaterialModule } from './material.module';
     MaterialModule
   ],
   exports: [MaterialModule],
-  providers: []
+  providers: [
+    AppDialogsService
+  ]
 })
 export class SharedModule {}

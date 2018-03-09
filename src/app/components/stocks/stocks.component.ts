@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
-import { MatSnackBar } from '@angular/material';
 
 import { AppService } from '../../app.service';
+import { AppDialogsService } from '../../shared/dialogs.service';
 import { Stocks } from '../../models/stocks.model';
 
 
@@ -23,8 +23,8 @@ export class StocksComponent implements OnInit, OnDestroy {
   getStocksEntitiesSub: Subscription;
 
   constructor(
-    public snackBar: MatSnackBar,
-    private appService: AppService
+    private appService: AppService,
+    private appDialogService: AppDialogsService
   ) { }
 
   ngOnInit() {
@@ -69,7 +69,7 @@ export class StocksComponent implements OnInit, OnDestroy {
       };
 
       if (newStocks.quantity < 0 || newStocks.quantity > oldStocks.quantity) {
-        this.showWarning('Invalid quantity value!');
+        this.appDialogService.showWarningSnackBar('Invalid quantity value!', 'Dismiss');
 
       } else if (newStocks.quantity === 0) {
         this.deleteStocksSub = this.appService.deleteStocks(newStocks).subscribe(() => {
@@ -92,13 +92,6 @@ export class StocksComponent implements OnInit, OnDestroy {
       balance: Number((this.appService.userBalance.balance + soldTotal).toFixed(2))
     };
     this.appService.updateBalance(newUserBalance);
-  }
-
-  showWarning(message) {
-    const action = 'Dismiss';
-    this.snackBar.open(message, action, {
-      duration: 2000,
-    });
   }
 
 }

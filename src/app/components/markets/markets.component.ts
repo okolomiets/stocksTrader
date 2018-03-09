@@ -2,10 +2,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DataSource } from '@angular/cdk/collections';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
-import { MatSnackBar } from '@angular/material';
 
-import { AppService } from '../../app.service';
 import { Market } from '../../models/market.model';
+import { AppService } from '../../app.service';
+import { AppDialogsService } from '../../shared/dialogs.service';
 
 @Component({
   selector: 'app-markets',
@@ -21,8 +21,8 @@ export class MarketsComponent implements OnInit, OnDestroy {
   saveStocksSub: Subscription;
 
   constructor(
-    public snackBar: MatSnackBar,
-    private appService: AppService
+    private appService: AppService,
+    private appDialogService: AppDialogsService
   ) { }
 
   ngOnInit() {}
@@ -44,7 +44,7 @@ export class MarketsComponent implements OnInit, OnDestroy {
     purchase.lastUpdated = new Date();
 
     if (this.appService.userBalance.balance - purchase.total > this.appService.userBalance.balance) {
-      this.showWarning('Invalid quantity value!');
+      this.appDialogService.showWarningSnackBar('Invalid quantity value!', 'Dismiss');
 
     } else if (this.appService.userBalance.balance - purchase.total > 0) {
 
@@ -67,7 +67,7 @@ export class MarketsComponent implements OnInit, OnDestroy {
       });
 
     } else {
-      this.showWarning('Not enough balance to buy!');
+      this.appDialogService.showWarningSnackBar('Not enough balance to buy!', 'Dismiss');
     }
   }
 
@@ -77,13 +77,6 @@ export class MarketsComponent implements OnInit, OnDestroy {
       balance: Number((this.appService.userBalance.balance - purchase.total).toFixed(2))
     };
     this.appService.updateBalance(newUserBalance);
-  }
-
-  showWarning(message) {
-    const action = 'Dismiss';
-    this.snackBar.open(message, action, {
-      duration: 2000,
-    });
   }
 
 }
