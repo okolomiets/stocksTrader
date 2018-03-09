@@ -1,17 +1,17 @@
 <div class="markets-container mat-elevation-z8">
-  <mat-table #table [dataSource]="markets">
+  <mat-table #table [dataSource]="markets" matSort>
     <ng-container matColumnDef="name">
-      <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="category">
-      <mat-header-cell *matHeaderCellDef> Category </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Category </mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.category}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="price">
-      <mat-header-cell *matHeaderCellDef> Price (per stock)</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Price (per stock)</mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.price | currency}} </mat-cell>
     </ng-container>
 
@@ -30,4 +30,9 @@
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
   </mat-table>
+  <mat-paginator #paginator
+                 [pageSize]="5"
+                 [pageSizeOptions]="[5, 10, 20]"
+                 [showFirstLastButtons]="true">
+  </mat-paginator>
 </div>

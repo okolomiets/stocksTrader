@@ -1,6 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { DataSource } from '@angular/cdk/collections';
-import { Observable } from 'rxjs/Observable';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatSort, MatPaginator, MatTableDataSource } from '@angular/material';
 import { Subscription } from 'rxjs/Subscription';
 
 import { Market } from '../../models/market.model';
@@ -13,17 +12,29 @@ import { AppService } from '../../app.service';
 })
 export class MarketsComponent implements OnInit, OnDestroy {
   displayedColumns = ['name', 'category', 'price', 'buy'];
-  markets = new MarketsDataSource(this.appService);
+  markets: MatTableDataSource<Market>;
   maxQauntity = 1000000;
   buyStocksSub: Subscription;
+  getMarketsSub: Subscription;
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(
     private appService: AppService
   ) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.getMarketsSub = this.appService.getMarkets().subscribe(markets => {
+      this.markets = new MatTableDataSource<Market>(markets);
+      this.markets.paginator = this.paginator;
+      this.markets.sort = this.sort;
+    });
+  }
 
   ngOnDestroy() {
+    this.getMarketsSub.unsubscribe();
+
     if (this.buyStocksSub) {
       this.buyStocksSub.unsubscribe();
     }
@@ -35,12 +46,12 @@ export class MarketsComponent implements OnInit, OnDestroy {
 
 }
 
-export class MarketsDataSource extends DataSource<Market> {
-  constructor(private appService: AppService) {
-    super();
-  }
-  connect(): Observable<Market[]> {
-    return this.appService.getMarkets();
-  }
-  disconnect() {}
-}
+// export class MarketsDataSource extends MatTableDataSource<Market> {
+//   constructor(private appService: AppService) {
+//     super();
+//   }
+//   connect() {
+//     return (<BehaviorSubject<Market[]>>this.appService.getMarkets());
+//   }
+//   disconnect() {}
+// }
