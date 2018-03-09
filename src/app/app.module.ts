@@ -1,47 +1,27 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+// shared
 import { SharedModule } from './shared/shared.module';
-
-import { AppComponent } from './app.component';
 
 // components
 import * as fromComponents from './components/components.index';
+import { AppComponent } from './app.component';
 
+// services
 import { AppService } from './app.service';
 
 // routes
-export const ROUTES: Routes = [
-  {
-    path: '',
-    redirectTo: 'markets',
-    pathMatch: 'full'
-  },
-  {
-    path: 'markets',
-    component: fromComponents.MarketsComponent,
-    pathMatch: 'full'
-  },
-  {
-    path: 'stocks',
-    component: fromComponents.StocksComponent,
-    pathMatch: 'full'
-  },
-  {
-    path: '**',
-    redirectTo: 'markets',
-    pathMatch: 'full'
-  }
-];
+import { ROUTES } from './app.routes';
 
 @NgModule({
   declarations: [
     AppComponent,
-    fromComponents.container
+    ...fromComponents.container
   ],
   imports: [
     BrowserModule,
