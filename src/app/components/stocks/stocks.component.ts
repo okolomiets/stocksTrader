@@ -16,7 +16,6 @@ export class StocksComponent implements OnInit, OnDestroy {
   displayedColumns = ['id', 'lastUpdated', 'market', 'price', 'quantity', 'total', 'sell'];
   stocks$: Subject<{}>;
   overallPurchased$: Subject<{}>;
-  stocks: Stocks[];
   getStocksSub: Subscription;
   updateStocksSub: Subscription;
   deleteStocksSub: Subscription;
@@ -35,7 +34,6 @@ export class StocksComponent implements OnInit, OnDestroy {
 
   getStocks() {
     this.getStocksSub = this.appService.getStocks().subscribe(stocks => {
-      this.stocks = stocks;
       this.appService.stocks$.next(stocks);
       this.appService.getOverallPurchased(stocks);
     });
