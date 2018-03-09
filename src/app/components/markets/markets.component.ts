@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DataSource } from '@angular/cdk/collections';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
+import { MatSnackBar } from '@angular/material';
 
 import { AppService } from '../../app.service';
 import { Market } from '../../models/market.model';
@@ -19,7 +20,10 @@ export class MarketsComponent implements OnInit, OnDestroy {
   updateStocksSub: Subscription;
   saveStocksSub: Subscription;
 
-  constructor(private appService: AppService) { }
+  constructor(
+    public snackBar: MatSnackBar,
+    private appService: AppService
+  ) { }
 
   ngOnInit() {}
 
@@ -57,6 +61,12 @@ export class MarketsComponent implements OnInit, OnDestroy {
               this.updateBalance(purchase);
             });
         }
+      });
+    } else {
+      const message = 'Not enough balance to buy!';
+      const action = 'Dismiss';
+      this.snackBar.open(message, action, {
+        duration: 2000,
       });
     }
   }

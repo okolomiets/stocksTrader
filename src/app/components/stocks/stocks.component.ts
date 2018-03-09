@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
+import { MatSnackBar } from '@angular/material';
 
 import { AppService } from '../../app.service';
 import { Stocks } from '../../models/stocks.model';
@@ -21,7 +22,10 @@ export class StocksComponent implements OnInit, OnDestroy {
   deleteStocksSub: Subscription;
   getStocksEntitiesSub: Subscription;
 
-  constructor(private appService: AppService) { }
+  constructor(
+    public snackBar: MatSnackBar,
+    private appService: AppService
+  ) { }
 
   ngOnInit() {
     this.stocks$ = this.appService.stocks$;
@@ -64,7 +68,13 @@ export class StocksComponent implements OnInit, OnDestroy {
         lastUpdated: new Date()
       };
 
-      if (newStocks.quantity === 0) {
+      if (newStocks.quantity < 0) {
+        const message = 'Invalid quantity value!';
+        const action = 'Dismiss';
+        this.snackBar.open(message, action, {
+          duration: 2000,
+        });
+      } else if (newStocks.quantity === 0) {
         this.deleteStocksSub = this.appService.deleteStocks(newStocks).subscribe(() => {
           this.getStocks();
           this.updateBalance(soldTotal);
