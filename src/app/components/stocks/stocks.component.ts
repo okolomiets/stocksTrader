@@ -74,24 +74,16 @@ export class StocksComponent implements OnInit, OnDestroy {
       } else if (newStocks.quantity === 0) {
         this.deleteStocksSub = this.appService.deleteStocks(newStocks).subscribe(() => {
           this.getStocks();
-          this.updateBalance(soldTotal);
+          this.appService.updateBalance(soldTotal);
         });
 
       } else {
         this.updateStocksSub = this.appService.updateStocks(newStocks).subscribe(() => {
           this.getStocks();
-          this.updateBalance(soldTotal);
+          this.appService.updateBalance(soldTotal);
         });
       }
     });
-  }
-
-  updateBalance(soldTotal) {
-    const newUserBalance = {
-      ...this.appService.userBalance,
-      balance: Number((this.appService.userBalance.balance + soldTotal).toFixed(2))
-    };
-    this.appService.updateBalance(newUserBalance);
   }
 
 }

@@ -57,13 +57,13 @@ export class MarketsComponent implements OnInit, OnDestroy {
           existedStocks.lastUpdated = purchase.lastUpdated;
           this.updateStocksSub = this.appService.updateStocks(existedStocks).subscribe(
             () => {
-              this.updateBalance(purchase);
+              this.appService.updateBalance(-purchase.total);
             });
 
         } else {
           this.saveStocksSub = this.appService.saveStocks(purchase).subscribe(
             () => {
-              this.updateBalance(purchase);
+              this.appService.updateBalance(-purchase.total);
             });
         }
       });
@@ -71,14 +71,6 @@ export class MarketsComponent implements OnInit, OnDestroy {
     } else {
       this.appDialogService.showWarningSnackBar('Not enough balance to buy!', 'Dismiss');
     }
-  }
-
-  updateBalance(purchase) {
-    const newUserBalance = {
-      ...this.appService.userBalance,
-      balance: Number((this.appService.userBalance.balance - purchase.total).toFixed(2))
-    };
-    this.appService.updateBalance(newUserBalance);
   }
 
 }

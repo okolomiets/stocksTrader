@@ -35,9 +35,12 @@ export class AppService {
     this.overallPurchased$.next(overallPurchased);
   }
 
-  updateBalance(newUser): void {
-    this.userBalance = newUser;
-    this.userBalance$.next(newUser);
+  updateBalance(total): void {
+    this.userBalance = {
+      ...this.userBalance,
+      balance: Number((this.userBalance.balance + total).toFixed(2))
+    };
+    this.userBalance$.next(this.userBalance);
   }
 
   getMarkets(): Observable<Market[]> {
