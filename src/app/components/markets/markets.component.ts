@@ -53,7 +53,7 @@ export class MarketsComponent implements OnInit, OnDestroy {
 
         if (existedStocks) {
           existedStocks.quantity += purchase.quantity;
-          existedStocks.total += existedStocks.total;
+          existedStocks.total += purchase.total;
           existedStocks.lastUpdated = purchase.lastUpdated;
           this.updateStocksSub = this.appService.updateStocks(existedStocks).subscribe(
             () => {
