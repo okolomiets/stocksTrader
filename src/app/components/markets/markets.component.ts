@@ -43,7 +43,10 @@ export class MarketsComponent implements OnInit, OnDestroy {
     purchase.total = Number((Number(purchase.market.price) * purchase.quantity).toFixed(2));
     purchase.lastUpdated = new Date();
 
-    if (this.appService.userBalance.balance - purchase.total > 0) {
+    if (this.appService.userBalance.balance - purchase.total > this.appService.userBalance.balance) {
+      this.showWarning('Invalid quantity value!');
+
+    } else if (this.appService.userBalance.balance - purchase.total > 0) {
 
       this.getStocksEntitiesSub = this.appService.getStocksEntities().subscribe(stocksEntities => {
         const existedStocks = stocksEntities[purchase.market.id];
@@ -62,12 +65,9 @@ export class MarketsComponent implements OnInit, OnDestroy {
             });
         }
       });
+
     } else {
-      const message = 'Not enough balance to buy!';
-      const action = 'Dismiss';
-      this.snackBar.open(message, action, {
-        duration: 2000,
-      });
+      this.showWarning('Not enough balance to buy!');
     }
   }
 
@@ -77,6 +77,13 @@ export class MarketsComponent implements OnInit, OnDestroy {
       balance: Number((this.appService.userBalance.balance - purchase.total).toFixed(2))
     };
     this.appService.updateBalance(newUserBalance);
+  }
+
+  showWarning(message) {
+    const action = 'Dismiss';
+    this.snackBar.open(message, action, {
+      duration: 2000,
+    });
   }
 
 }

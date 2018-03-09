@@ -69,16 +69,14 @@ export class StocksComponent implements OnInit, OnDestroy {
       };
 
       if (newStocks.quantity < 0 || newStocks.quantity > oldStocks.quantity) {
-        const message = 'Invalid quantity value!';
-        const action = 'Dismiss';
-        this.snackBar.open(message, action, {
-          duration: 2000,
-        });
+        this.showWarning('Invalid quantity value!');
+
       } else if (newStocks.quantity === 0) {
         this.deleteStocksSub = this.appService.deleteStocks(newStocks).subscribe(() => {
           this.getStocks();
           this.updateBalance(soldTotal);
         });
+
       } else {
         this.updateStocksSub = this.appService.updateStocks(newStocks).subscribe(() => {
           this.getStocks();
@@ -94,6 +92,13 @@ export class StocksComponent implements OnInit, OnDestroy {
       balance: Number((this.appService.userBalance.balance + soldTotal).toFixed(2))
     };
     this.appService.updateBalance(newUserBalance);
+  }
+
+  showWarning(message) {
+    const action = 'Dismiss';
+    this.snackBar.open(message, action, {
+      duration: 2000,
+    });
   }
 
 }
