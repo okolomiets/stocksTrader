@@ -1,0 +1,20 @@
+.stocks-container {
+  display: flex;
+  flex-direction: column;
+  max-height: 500px;
+  min-width: 300px;
+  overflow: auto;
+}
+
+.mat-table {
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+.mat-table .mat-cell.mat-column-id, .mat-header-cell.mat-column-id {
+  max-width: 50px;
+}
+
+.mat-table .mat-cell.mat-column-quantity, .mat-header-cell.mat-column-quantity {
+  max-width: 100px;
+}
