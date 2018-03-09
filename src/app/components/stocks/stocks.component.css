@@ -18,3 +18,12 @@
 .mat-table .mat-cell.mat-column-quantity, .mat-header-cell.mat-column-quantity {
   max-width: 100px;
 }
+
+.mat-table .mat-cell.mat-column-sell, .mat-header-cell.mat-column-sell {
+  min-width: 280px;
+}
+
+.mat-table .mat-cell.mat-column-market, .mat-header-cell.mat-column-market {
+  min-width: 300px;
+  max-width: 300px;
+}

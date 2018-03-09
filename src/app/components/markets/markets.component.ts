@@ -12,14 +12,15 @@ import { Observable } from 'rxjs/Observable';
 export class MarketsComponent implements OnInit {
   displayedColumns = ['name', 'category', 'price', 'buy'];
   markets = new MarketsDataSource(this.appService);
+  maxQauntity = 1000000;
 
   constructor(private appService: AppService) { }
 
   ngOnInit() {}
 
   buyStocks(purchase) {
-    purchase.total = Number((purchase.price * purchase.quantity).toFixed(2));
-    purchase.purchased = Date.now();
+    purchase.total = Number((Number(purchase.market.price) * purchase.quantity).toFixed(2));
+    purchase.purchased = new Date();
 
     if (this.appService.userBalance.balance - purchase.total > 0) {
       this.appService.saveStocks(purchase).subscribe(

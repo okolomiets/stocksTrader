@@ -7,6 +7,7 @@ import { Market } from '../../models/market.model';
               <input matInput placeholder="quantity"
                      type="number"
                      [min]="minQauntity"
+                     [max]="maxQauntity"
                      [(ngModel)]="quantity"/>
             </mat-form-field>
             <button mat-button color="primary" (click)="onClick()" [disabled]="!quantity">{{btnLabel}}</button>
@@ -17,6 +18,7 @@ export class StocksControlComponent implements OnInit {
   @Input() market: Market;
   @Input() btnLabel: string;
   @Input() minQauntity: number;
+  @Input() maxQauntity: number;
   quantity: number;
   @Output() onSubmit= new EventEmitter<any>();
 
@@ -27,9 +29,7 @@ export class StocksControlComponent implements OnInit {
 
   onClick() {
     const purchase = {
-      marketId: this.market.id,
-      market: this.market.name,
-      price: Number(this.market.price),
+      market: this.market,
       quantity: this.quantity
     };
     this.onSubmit.emit(purchase);

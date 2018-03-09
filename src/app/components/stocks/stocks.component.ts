@@ -11,12 +11,16 @@ import { Stocks } from '../../models/stocks.model';
   styleUrls: ['./stocks.component.css']
 })
 export class StocksComponent implements OnInit {
-  displayedColumns = ['id', 'purchased', 'market', 'price', 'quantity', 'total'];
+  displayedColumns = ['id', 'purchased', 'market', 'price', 'quantity', 'total', 'sell'];
   stocks = new StocksDataSource(this.appService);
 
   constructor(private appService: AppService) { }
 
   ngOnInit() {}
+
+  sellStocks(stocks: Stocks) {
+    console.log('sellStocks', stocks);
+  }
 
 }
 

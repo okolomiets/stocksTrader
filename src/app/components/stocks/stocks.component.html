@@ -12,12 +12,12 @@
 
     <ng-container matColumnDef="market">
       <mat-header-cell *matHeaderCellDef> Market </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.market}} </mat-cell>
+      <mat-cell *matCellDef="let element"> {{element.market.name}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="price">
       <mat-header-cell *matHeaderCellDef> Price (per stock)</mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.price | currency}} </mat-cell>
+      <mat-cell *matCellDef="let element"> {{element.market.price | currency}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="quantity">
@@ -28,6 +28,18 @@
     <ng-container matColumnDef="total">
       <mat-header-cell *matHeaderCellDef> Total </mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.total | currency}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="sell">
+      <mat-header-cell *matHeaderCellDef></mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <app-stocks-control (onSubmit)="sellStocks($event)"
+                            [minQauntity]="0"
+                            [maxQauntity]="element.quantity"
+                            [btnLabel]="'SELL'"
+                            [market]="element.market">
+        </app-stocks-control>
+      </mat-cell>
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
