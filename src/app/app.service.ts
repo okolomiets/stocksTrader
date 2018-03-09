@@ -14,6 +14,7 @@ import { Subject } from '../../node_modules/rxjs/Subject';
 export class AppService {
   userBalance$ = new Subject();
   stocks$ = new Subject();
+  overallPurchased$ = new Subject();
   userBalance: User;
   marketsEntities: {[key: number]: Market};
   stocksEntities: {[key: number]: Stocks};
@@ -24,6 +25,14 @@ export class AppService {
       .get<User>('/api/user').pipe(
         catchError((error: any) => Observable.throw(error))
       );
+  }
+
+  getOverallPurchased(stocks) {
+    const overallPurchased = stocks.reduce((purchased, stock: Stocks) => {
+      purchased += stock.total;
+      return purchased ;
+    }, 0);
+    this.overallPurchased$.next(overallPurchased);
   }
 
   updateBalance(newUser): void {

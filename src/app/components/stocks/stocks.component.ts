@@ -14,17 +14,18 @@ import { Stocks } from '../../models/stocks.model';
 export class StocksComponent implements OnInit, OnDestroy {
   displayedColumns = ['id', 'lastUpdated', 'market', 'price', 'quantity', 'total', 'sell'];
   stocks$: Subject<{}>;
+  overallPurchased$: Subject<{}>;
   stocks: Stocks[];
   getStocksSub: Subscription;
   updateStocksSub: Subscription;
   deleteStocksSub: Subscription;
   getStocksEntitiesSub: Subscription;
-  overallPurchased: Object;
 
   constructor(private appService: AppService) { }
 
   ngOnInit() {
     this.stocks$ = this.appService.stocks$;
+    this.overallPurchased$ = this.appService.overallPurchased$;
     this.getStocks();
   }
 
@@ -32,7 +33,7 @@ export class StocksComponent implements OnInit, OnDestroy {
     this.getStocksSub = this.appService.getStocks().subscribe(stocks => {
       this.stocks = stocks;
       this.appService.stocks$.next(stocks);
-      this.getOverallPurchased(stocks);
+      this.appService.getOverallPurchased(stocks);
     });
   }
 
@@ -48,18 +49,6 @@ export class StocksComponent implements OnInit, OnDestroy {
     if (this.deleteStocksSub) {
       this.deleteStocksSub.unsubscribe();
     }
-  }
-
-  getOverallPurchased(stocks) {
-    this.overallPurchased = stocks.reduce((purchased, stock: Stocks) => {
-      purchased.total += stock.total;
-      purchased.quantity += stock.quantity;
-      return purchased ;
-    }, {
-      total: 0,
-      quantity: 0
-    });
-    console.log('this.overallPurchased', this.overallPurchased);
   }
 
   sellStocks(sellStocks: Stocks) {

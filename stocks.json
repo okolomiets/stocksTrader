@@ -308,5 +308,30 @@
       "category": "Technology"
     }
   ],
-  "stocks": []
+  "stocks": [
+    {
+      "market": {
+        "id": 1,
+        "name": "MaxPoint Interactive, Inc.",
+        "price": "298.90",
+        "category": "Consumer Services"
+      },
+      "quantity": 10,
+      "total": 2989,
+      "lastUpdated": "2018-03-09T13:23:35.429Z",
+      "id": 1
+    },
+    {
+      "market": {
+        "id": 3,
+        "name": "Fortis Inc.",
+        "price": "122.28",
+        "category": "Public Utilities"
+      },
+      "quantity": 10,
+      "total": 1222.8,
+      "lastUpdated": "2018-03-09T13:23:37.755Z",
+      "id": 2
+    }
+  ]
 }
