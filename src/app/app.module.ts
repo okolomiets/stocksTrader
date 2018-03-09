@@ -8,11 +8,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from './shared/shared.module';
 
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './components/header/header.component';
-import { BalanceComponent } from './components/balance/balance.component';
-import { MarketsComponent } from './components/markets/markets.component';
-import { StocksComponent } from './components/stocks/stocks.component';
-import { StocksControlComponent } from './components/stocksControl/stocksControl.component';
+
+// components
+import * as fromComponents from './components/components.index';
 
 import { AppService } from './app.service';
 
@@ -25,12 +23,12 @@ export const ROUTES: Routes = [
   },
   {
     path: 'markets',
-    component: MarketsComponent,
+    component: fromComponents.MarketsComponent,
     pathMatch: 'full'
   },
   {
     path: 'stocks',
-    component: StocksComponent,
+    component: fromComponents.StocksComponent,
     pathMatch: 'full'
   },
   {
@@ -43,11 +41,7 @@ export const ROUTES: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
-    BalanceComponent,
-    MarketsComponent,
-    StocksComponent,
-    StocksControlComponent
+    fromComponents.container
   ],
   imports: [
     BrowserModule,
