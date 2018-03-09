@@ -28,11 +28,11 @@ export class StocksControlComponent implements OnInit {
   }
 
   onClick() {
-    const purchase = {
+    const stocks = {
       market: this.market,
       quantity: this.quantity
     };
-    this.onSubmit.emit(purchase);
+    this.onSubmit.emit(stocks);
     this.quantity = null;
   }
 

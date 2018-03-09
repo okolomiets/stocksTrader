@@ -320,6 +320,18 @@
       "total": 2989,
       "purchased": "2018-03-09T09:37:34.702Z",
       "id": 1
+    },
+    {
+      "market": {
+        "id": 2,
+        "name": "Jensyn Acquistion Corp.",
+        "price": "287.63",
+        "category": "Finance"
+      },
+      "quantity": 6,
+      "total": 1725.78,
+      "purchased": "2018-03-09T09:45:29.090Z",
+      "id": 2
     }
   ]
 }
