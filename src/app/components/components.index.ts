@@ -17,6 +17,6 @@ export const container = [
 export * from './header/header.component';
 export * from './balance/balance.component';
 export * from './markets/markets.component';
-export * from'./stocks/stocks.component';
+export * from './stocks/stocks.component';
 export * from './stocksControl/stocksControl.component';
 export * from './confirmDialog/confirmDialog.component';
