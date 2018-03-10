@@ -12,6 +12,8 @@ import { User } from './models/user.model';
 
 import { AppDialogsService } from './shared/dialogs.service';
 
+import { ConfirmDialogComponent } from './components/confirmDialog/confirmDialog.component';
+
 @Injectable()
 export class AppService {
   userBalance$ = new Subject();
@@ -132,38 +134,53 @@ export class AppService {
     purchase.lastUpdated = new Date();
 
     if (this.userBalance.balance - purchase.total > this.userBalance.balance) {
-      this.appDialogService.showWarningSnackBar('Invalid quantity value!', 'Dismiss');
+      this.appDialogService.openSnackBar('Invalid quantity value!', 'Dismiss');
+      return of({});
 
     } else if (this.userBalance.balance - purchase.total > 0) {
 
-      return this.getStocksEntities().pipe(
-        map(stocksEntities => stocksEntities[purchase.market.id]),
-        switchMap((existedStocks): any => {
-          if (existedStocks) {
+      return this.appDialogService.openModal(ConfirmDialogComponent, {
+        title: 'Buy Stocks',
+        message: `You're going to buy ${purchase.quantity} stock(s) of ${purchase.market.name}`,
+        okButton: 'Buy',
+        cancelButton: 'Cancel'
+      }).pipe(
+        switchMap((confirmed): any => {
+          if (confirmed) {
 
-            existedStocks.quantity += purchase.quantity;
-            existedStocks.total += purchase.total;
-            existedStocks.lastUpdated = purchase.lastUpdated;
+            return this.getStocksEntities().pipe(
+              map(stocksEntities => stocksEntities[purchase.market.id]),
+              switchMap((existedStocks): any => {
+                if (existedStocks) {
 
-            return this.updateStocks(existedStocks).pipe(
-              tap(() => {
-                this.updateBalance(-purchase.total);
-              })
+                  existedStocks.quantity += purchase.quantity;
+                  existedStocks.total += purchase.total;
+                  existedStocks.lastUpdated = purchase.lastUpdated;
+
+                  return this.updateStocks(existedStocks).pipe(
+                    tap(() => {
+                      this.updateBalance(-purchase.total);
+                    })
+                  );
+
+                } else {
+                  return this.saveStocks(purchase).pipe(
+                    tap(() => {
+                      this.updateBalance(-purchase.total);
+                    })
+                  );
+                }
+              }),
+              catchError((error: any) => Observable.throw(error))
             );
-
           } else {
-            return this.saveStocks(purchase).pipe(
-              tap(() => {
-                this.updateBalance(-purchase.total);
-              })
-            );
+            return of({});
           }
-        }),
-        catchError((error: any) => Observable.throw(error))
+        })
       );
-
     } else {
-      this.appDialogService.showWarningSnackBar('Not enough balance to buy!', 'Dismiss');
+      this.appDialogService.openSnackBar('Not enough balance to buy!', 'Dismiss');
+      return of({});
     }
   }
 

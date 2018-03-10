@@ -67,7 +67,7 @@ export class StocksComponent implements OnInit, OnDestroy {
       };
 
       if (newStocks.quantity < 0 || newStocks.quantity > oldStocks.quantity) {
-        this.appDialogService.showWarningSnackBar('Invalid quantity value!', 'Dismiss');
+        this.appDialogService.openSnackBar('Invalid quantity value!', 'Dismiss');
 
       } else if (newStocks.quantity === 0) {
         this.deleteStocksSub = this.appService.deleteStocks(newStocks).subscribe(() => {

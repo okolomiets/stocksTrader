@@ -23,6 +23,9 @@ import { ROUTES } from './app.routes';
     AppComponent,
     ...fromComponents.container
   ],
+  entryComponents: [
+    fromComponents.ConfirmDialogComponent
+  ],
   imports: [
     BrowserModule,
     HttpClientModule,
