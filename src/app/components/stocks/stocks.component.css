@@ -37,6 +37,8 @@
   font-stretch: normal;
   font-size: 20px;
   line-height: 32px;
+  margin-left: 5%;
+  margin-right: 5%;
 }
 
 .app-overall-stocks-price mat-icon {
