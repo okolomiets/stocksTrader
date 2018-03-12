@@ -17,7 +17,7 @@ export class AppDialogsService {
   }
 
   openModal(component, data): Observable<any> {
-    const dialogRef = this.modal.open(component, {
+    const dialogRef: MatDialogRef<MatDialog> = this.modal.open(component, {
       width: '500px',
       closeOnNavigation: false,
       disableClose: true,
