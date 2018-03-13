@@ -6,16 +6,16 @@ import { Subject } from 'rxjs/Subject';
 import { of } from 'rxjs/observable/of';
 import { tap, map, filter, take, switchMap, catchError } from 'rxjs/operators';
 
-import { Market } from './models/market.model';
-import { Stocks } from './models/stocks.model';
-import { User } from './models/user.model';
+import { Market } from '../models/market.model';
+import { Stocks } from '../models/stocks.model';
+import { User } from '../models/user.model';
 
-import { AppDialogsService } from './shared/dialogs.service';
+import { AppDialogsService } from '../shared/dialogs.service';
 
-import { ConfirmDialogComponent } from './shared/confirmDialog/confirmDialog.component';
+import { ConfirmDialogComponent } from '../shared/confirmDialog/confirmDialog.component';
 
 @Injectable()
-export class AppService {
+export class CoreService {
   userBalance$ = new Subject();
   stocks$ = new Subject();
   overallPurchased$ = new Subject();

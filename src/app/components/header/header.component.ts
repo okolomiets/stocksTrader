@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
 
-import { AppService } from '../../app.service';
+import { CoreService } from '../../core/core.service';
 import { User } from '../../models/user.model';
 
 @Component({
@@ -13,13 +13,13 @@ import { User } from '../../models/user.model';
 export class HeaderComponent implements OnInit, OnDestroy {
   user$: Subject<{}>;
   getBalanceSub: Subscription;
-  constructor(private appService: AppService) { }
+  constructor(private coreService: CoreService) { }
 
   ngOnInit() {
-    this.user$ = this.appService.userBalance$;
-    this.getBalanceSub = this.appService.getBalance().subscribe((user: User) => {
-      this.appService.userBalance = user;
-      this.appService.userBalance$.next(user);
+    this.user$ = this.coreService.userBalance$;
+    this.getBalanceSub = this.coreService.getBalance().subscribe((user: User) => {
+      this.coreService.userBalance = user;
+      this.coreService.userBalance$.next(user);
     });
   }
 

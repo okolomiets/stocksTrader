@@ -1,41 +1,43 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { CoreModule } from './core/core.module';
 
 // shared
 import { SharedModule } from './shared/shared.module';
 
 // components
-import * as fromComponents from './components/components.index';
 import { AppComponent } from './app.component';
-import { ConfirmDialogComponent } from './shared/confirmDialog/confirmDialog.component';
-
-// services
-import { AppService } from './app.service';
 
 // routes
-import { ROUTES } from './app.routes';
+export const ROUTES: Routes = [
+  {
+    path: '',
+    loadChildren: './core/core.module#CoreModule',
+  },
+  {
+    path: '**',
+    redirectTo: '',
+    pathMatch: 'full'
+  }
+];
 
 @NgModule({
   declarations: [
-    AppComponent,
-    ...fromComponents.container
-  ],
-  entryComponents: [
-    ConfirmDialogComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     BrowserAnimationsModule,
     RouterModule.forRoot(ROUTES, { useHash: true }),
-    SharedModule
+    SharedModule,
+    CoreModule
   ],
-  providers: [
-    AppService
-  ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

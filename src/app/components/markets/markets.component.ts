@@ -3,7 +3,7 @@ import { MatSort, MatPaginator, MatTableDataSource } from '@angular/material';
 import { Subscription } from 'rxjs/Subscription';
 
 import { Market } from '../../models/market.model';
-import { AppService } from '../../app.service';
+import { CoreService } from '../../core/core.service';
 
 @Component({
   selector: 'app-markets',
@@ -21,11 +21,11 @@ export class MarketsComponent implements OnInit, OnDestroy {
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(
-    private appService: AppService
+    private coreService: CoreService
   ) { }
 
   ngOnInit() {
-    this.getMarketsSub = this.appService.getMarkets().subscribe(markets => {
+    this.getMarketsSub = this.coreService.getMarkets().subscribe(markets => {
       this.markets = new MatTableDataSource<Market>(markets);
       this.markets.paginator = this.paginator;
       this.markets.sort = this.sort;
@@ -41,7 +41,7 @@ export class MarketsComponent implements OnInit, OnDestroy {
   }
 
   buyStocks(purchase) {
-    this.buyStocksSub = this.appService.buyStocks(purchase).subscribe(() => {});
+    this.buyStocksSub = this.coreService.buyStocks(purchase).subscribe(() => {});
   }
 
 }
