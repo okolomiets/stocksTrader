@@ -13,7 +13,7 @@ import { AppService } from '../../app.service';
 export class MarketsComponent implements OnInit, OnDestroy {
   displayedColumns = ['id', 'name', 'category', 'price', 'buy'];
   markets: MatTableDataSource<Market>;
-  maxQauntity = 1000000;
+  maxQuantity = 1000000;
   buyStocksSub: Subscription;
   getMarketsSub: Subscription;
 
