@@ -12,7 +12,7 @@ import { User } from './models/user.model';
 
 import { AppDialogsService } from './shared/dialogs.service';
 
-import { ConfirmDialogComponent } from './components/confirmDialog/confirmDialog.component';
+import { ConfirmDialogComponent } from './shared/confirmDialog/confirmDialog.component';
 
 @Injectable()
 export class AppService {
