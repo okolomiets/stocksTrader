@@ -25,8 +25,8 @@
       <mat-header-cell *matHeaderCellDef></mat-header-cell>
       <mat-cell *matCellDef="let element">
         <app-stocks-control (onSubmit)="buyStocks($event)"
-                            [maxQauntity]="maxQuantity"
-                            [minQauntity]="0"
+                            [maxQuantity]="maxQuantity"
+                            [minQuantity]="0"
                             [btnLabel]="'BUY'"
                             [market]="element">
         </app-stocks-control>
