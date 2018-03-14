@@ -1,30 +1,24 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import { Subject } from 'rxjs/Subject';
-import { Subscription } from 'rxjs/Subscription';
+import {Component, OnInit} from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { Store } from '@ngrx/store';
 
-import { CoreService } from '../../core/core.service';
 import { User } from '../../models/user.model';
+import * as fromStore from '../../store';
+
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit, OnDestroy {
-  user$: Subject<{}>;
-  getBalanceSub: Subscription;
-  constructor(private coreService: CoreService) { }
+export class HeaderComponent implements OnInit {
+  user$: Observable<User>;
+  constructor(
+    private store: Store<fromStore.AppState>
+  ) { }
 
   ngOnInit() {
-    this.user$ = this.coreService.userBalance$;
-    this.getBalanceSub = this.coreService.getBalance().subscribe((user: User) => {
-      this.coreService.userBalance = user;
-      this.coreService.userBalance$.next(user);
-    });
+    this.user$ = this.store.select(fromStore.getUser);
+    this.store.dispatch(new fromStore.LoadUser());
   }
-
-  ngOnDestroy() {
-    this.getBalanceSub.unsubscribe();
-  }
-
 }

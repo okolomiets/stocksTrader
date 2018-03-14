@@ -19,7 +19,7 @@ import { CoreService } from './core.service';
 import { SharedModule } from '../shared/shared.module';
 
 // guards
-import { MarketsGuard } from './core.guards';
+import * as fromGuards from '../guards/index';
 
 // routes
 export const ROUTES: Routes = [
@@ -30,7 +30,7 @@ export const ROUTES: Routes = [
   },
   {
     path: 'markets',
-    canActivate: [ MarketsGuard ],
+    canActivate: [ fromGuards.MarketsGuard ],
     component: fromComponents.MarketsComponent,
     pathMatch: 'full'
   },
@@ -62,7 +62,7 @@ export const ROUTES: Routes = [
   ],
   providers: [
     CoreService,
-    MarketsGuard
+    ...fromGuards.guards
   ],
   exports: [
     ConfirmDialogComponent,

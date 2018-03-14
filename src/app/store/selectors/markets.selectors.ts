@@ -3,21 +3,21 @@ import { createSelector } from '@ngrx/store';
 import * as fromFeature from '../reducers';
 import * as fromMarkets from '../reducers/markets.reducers';
 
-export const getFeatureState = createSelector(
+export const getMarketsFeatureState = createSelector(
   fromFeature.getAppState,
   (state: fromFeature.AppState) => state.markets
 );
 
 export const getAllMarkets = createSelector(
-  getFeatureState,
+  getMarketsFeatureState,
   fromMarkets.getMarkets
 );
 
 export const getMarketsLoaded = createSelector(
-  getFeatureState,
+  getMarketsFeatureState,
   fromMarkets.getMarketsLoaded
 );
 export const getMarketsLoading = createSelector(
-  getFeatureState,
+  getMarketsFeatureState,
   fromMarkets.getMarketsLoading
 );

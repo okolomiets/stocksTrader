@@ -6,6 +6,8 @@ import { Subject } from 'rxjs/Subject';
 import { of } from 'rxjs/observable/of';
 import { tap, map, filter, take, switchMap, catchError } from 'rxjs/operators';
 
+import { Store } from '@ngrx/store';
+
 import { Market } from '../models/market.model';
 import { Stocks } from '../models/stocks.model';
 import { User } from '../models/user.model';
@@ -13,6 +15,7 @@ import { User } from '../models/user.model';
 import { AppDialogsService } from '../shared/dialogs.service';
 
 import { ConfirmDialogComponent } from '../shared/confirmDialog/confirmDialog.component';
+import * as fromStore from '../store';
 
 @Injectable()
 export class CoreService {
@@ -24,7 +27,8 @@ export class CoreService {
   stocksEntities: {[key: number]: Stocks};
   constructor(
     private http: HttpClient,
-    private appDialogService: AppDialogsService
+    private appDialogService: AppDialogsService,
+    private store: Store<fromStore.AppState>
   ) { }
 
   getBalance(): Observable<User> {
