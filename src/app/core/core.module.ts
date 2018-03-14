@@ -9,7 +9,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { reducers, effects } from '../store/index';
 
 // components
-import * as fromComponents from '../components/components.index';
+import * as fromComponents from '../components/index';
 import { ConfirmDialogComponent } from '../shared/confirmDialog/confirmDialog.component';
 
 // services
