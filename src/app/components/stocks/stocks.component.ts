@@ -1,11 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
+import { Observable } from 'rxjs/Observable';
 
 import { CoreService } from '../../core/core.service';
 import { AppDialogsService } from '../../shared/dialogs.service';
 import { Stocks } from '../../models/stocks.model';
 
+import { Store } from '@ngrx/store';
+import * as fromStore from '../../store';
 
 @Component({
   selector: 'app-stocks',
@@ -14,33 +16,29 @@ import { Stocks } from '../../models/stocks.model';
 })
 export class StocksComponent implements OnInit, OnDestroy {
   displayedColumns = ['id', 'lastUpdated', 'market', 'price', 'quantity', 'total', 'sell'];
-  stocks$: Subject<{}>;
-  overallPurchased$: Subject<{}>;
-  getStocksSub: Subscription;
+  stocks$: Observable<Stocks[]>;
+  overallPurchased$: Observable<number>;
   updateStocksSub: Subscription;
   deleteStocksSub: Subscription;
   getStocksEntitiesSub: Subscription;
 
   constructor(
     private coreService: CoreService,
-    private appDialogService: AppDialogsService
+    private appDialogService: AppDialogsService,
+    private store: Store<fromStore.AppState>
   ) { }
 
   ngOnInit() {
-    this.stocks$ = this.coreService.stocks$;
-    this.overallPurchased$ = this.coreService.overallPurchased$;
+    this.stocks$ = this.store.select(fromStore.getAllStocks);
+    this.overallPurchased$ = this.store.select(fromStore.getOverallPurchased);
     this.getStocks();
   }
 
   getStocks() {
-    this.getStocksSub = this.coreService.getStocks().subscribe(stocks => {
-      this.coreService.stocks$.next(stocks);
-      this.coreService.getOverallPurchased(stocks);
-    });
+    this.store.dispatch(new fromStore.LoadStocks());
   }
 
   ngOnDestroy() {
-    this.getStocksSub.unsubscribe();
 
     if (this.getStocksEntitiesSub) {
       this.getStocksEntitiesSub.unsubscribe();

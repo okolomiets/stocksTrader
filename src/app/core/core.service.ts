@@ -20,9 +20,7 @@ import * as fromStore from '../store';
 @Injectable()
 export class CoreService {
   userBalance$ = new Subject();
-  stocks$ = new Subject();
-  overallPurchased$ = new Subject();
-  userBalance: User;
+  user: User;
   marketsEntities: {[key: number]: Market};
   stocksEntities: {[key: number]: Stocks};
   constructor(
@@ -34,24 +32,19 @@ export class CoreService {
   getBalance(): Observable<User> {
     return this.http
       .get<User>('/api/user').pipe(
+        tap((user) => {
+          this.user = user;
+        }),
         catchError((error: any) => Observable.throw(error))
       );
   }
 
-  getOverallPurchased(stocks) {
-    const overallPurchased = stocks.reduce((purchased, stock: Stocks) => {
-      purchased += stock.total;
-      return purchased ;
-    }, 0);
-    this.overallPurchased$.next(overallPurchased);
-  }
-
   updateBalance(total): void {
-    this.userBalance = {
-      ...this.userBalance,
-      balance: Number((this.userBalance.balance + total).toFixed(2))
+    this.user = {
+      ...this.user,
+      balance: Number((this.user.balance + total).toFixed(2))
     };
-    this.userBalance$.next(this.userBalance);
+    this.userBalance$.next(this.user);
   }
 
   getMarkets(): Observable<Market[]> {
@@ -137,11 +130,11 @@ export class CoreService {
     purchase.total = Number((Number(purchase.market.price) * purchase.quantity).toFixed(2));
     purchase.lastUpdated = new Date();
 
-    if (this.userBalance.balance - purchase.total > this.userBalance.balance) {
+    if (this.user.balance - purchase.total > this.user.balance) {
       this.appDialogService.openSnackBar('Invalid quantity value!', 'Dismiss');
       return of({});
 
-    } else if (this.userBalance.balance - purchase.total > 0) {
+    } else if (this.user.balance - purchase.total > 0) {
 
       return this.appDialogService.openModal(ConfirmDialogComponent, {
         title: 'Buy Stocks',
