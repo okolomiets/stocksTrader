@@ -3,14 +3,12 @@ import { Stocks } from '../../models/stocks.model';
 
 export interface StocksState {
   stocks: Stocks[];
-  overallPurchased: number;
   loaded: boolean;
   loading: boolean;
 }
 
 export const initialState: StocksState = {
   stocks: [],
-  overallPurchased: 0,
   loaded: false,
   loading: false
 };
@@ -29,16 +27,11 @@ export function reducer(
 
     case fromStocks.LOAD_STOCKS_SUCCESS: {
       const stocks = action.payload;
-      const overallPurchased = stocks.reduce((purchased, stock: Stocks) => {
-        purchased += stock.total;
-        return purchased ;
-      }, 0);
       return {
         ...state,
         loading: false,
         loaded: true,
-        stocks,
-        overallPurchased
+        stocks
       };
     }
 
@@ -56,5 +49,10 @@ export function reducer(
 export const getStocks = (state: StocksState) => state.stocks;
 export const getStocksLoading = (state: StocksState) => state.loading;
 export const getStocksLoaded = (state: StocksState) => state.loaded;
-export const getOverallPurchased = (state: StocksState) => state.overallPurchased;
+export const getOverallPurchased = (state: StocksState) => {
+  return state.stocks.reduce((purchased, stock: Stocks) => {
+    purchased += stock.total;
+    return purchased ;
+  }, 0);
+};
 

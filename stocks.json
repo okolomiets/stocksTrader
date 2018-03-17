@@ -316,9 +316,9 @@
         "price": "298.90",
         "category": "Consumer Services"
       },
-      "quantity": 10,
-      "total": 2989,
-      "lastUpdated": "2018-03-14T17:02:42.886Z",
+      "quantity": 15,
+      "total": 4483.5,
+      "lastUpdated": "2018-03-15T15:15:31.920Z",
       "id": 1
     },
     {
@@ -332,6 +332,30 @@
       "total": 2876.3,
       "lastUpdated": "2018-03-14T17:02:55.038Z",
       "id": 2
+    },
+    {
+      "market": {
+        "id": 4,
+        "name": "National General Holdings Corp",
+        "price": "362.14",
+        "category": "Finance"
+      },
+      "quantity": 5,
+      "total": 1810.7,
+      "lastUpdated": "2018-03-17T12:13:43.891Z",
+      "id": 3
+    },
+    {
+      "market": {
+        "id": 5,
+        "name": "Bloomin&#39; Brands, Inc.",
+        "price": "98.54",
+        "category": "Consumer Services"
+      },
+      "quantity": 6,
+      "total": 591.24,
+      "lastUpdated": "2018-03-17T12:15:50.844Z",
+      "id": 4
     }
   ]
 }

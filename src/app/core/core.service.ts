@@ -6,8 +6,6 @@ import { Subject } from 'rxjs/Subject';
 import { of } from 'rxjs/observable/of';
 import { tap, map, filter, take, switchMap, catchError } from 'rxjs/operators';
 
-import { Store } from '@ngrx/store';
-
 import { Market } from '../models/market.model';
 import { Stocks } from '../models/stocks.model';
 import { User } from '../models/user.model';
@@ -15,7 +13,6 @@ import { User } from '../models/user.model';
 import { AppDialogsService } from '../shared/dialogs.service';
 
 import { ConfirmDialogComponent } from '../shared/confirmDialog/confirmDialog.component';
-import * as fromStore from '../store';
 
 @Injectable()
 export class CoreService {
@@ -25,8 +22,7 @@ export class CoreService {
   stocksEntities: {[key: number]: Stocks};
   constructor(
     private http: HttpClient,
-    private appDialogService: AppDialogsService,
-    private store: Store<fromStore.AppState>
+    private appDialogService: AppDialogsService
   ) { }
 
   getBalance(): Observable<User> {
@@ -39,13 +35,7 @@ export class CoreService {
       );
   }
 
-  updateBalance(total): void {
-    this.user = {
-      ...this.user,
-      balance: Number((this.user.balance + total).toFixed(2))
-    };
-    this.userBalance$.next(this.user);
-  }
+  updateBalance(total): void { } // TODO get rid of
 
   getMarkets(): Observable<Market[]> {
     return this.http
@@ -57,18 +47,18 @@ export class CoreService {
       );
   }
 
-  getMarketEntities(): Observable<{[key: number]: Market}> {
-    if (this.marketsEntities) {
-      return of(this.marketsEntities);
-    } else {
-      return this.getMarkets().pipe(
-        switchMap((markets: Market[]) => {
-          this.marketsEntities = this.setMarketEntities(markets);
-          return of(this.marketsEntities);
-        })
-      );
-    }
-  }
+  // getMarketEntities(): Observable<{[key: number]: Market}> {
+  //   if (this.marketsEntities) {
+  //     return of(this.marketsEntities);
+  //   } else {
+  //     return this.getMarkets().pipe(
+  //       switchMap((markets: Market[]) => {
+  //         this.marketsEntities = this.setMarketEntities(markets);
+  //         return of(this.marketsEntities);
+  //       })
+  //     );
+  //   }
+  // }
 
   setMarketEntities(markets: Market[]): {[key: number]: Market} {
     return markets.reduce((entities, market: Market) => {
