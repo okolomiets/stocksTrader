@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
 import { of } from 'rxjs/observable/of';
 import { tap, map, filter, take, switchMap, catchError } from 'rxjs/operators';
 
@@ -16,7 +15,6 @@ import { ConfirmDialogComponent } from '../shared/confirmDialog/confirmDialog.co
 
 @Injectable()
 export class CoreService {
-  userBalance$ = new Subject();
   user: User;
   marketsEntities: {[key: number]: Market};
   stocksEntities: {[key: number]: Stocks};
