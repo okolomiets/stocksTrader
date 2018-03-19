@@ -16,6 +16,10 @@ export const getOverallPurchased = createSelector(
   getStocksFeatureState,
   fromStocks.getOverallPurchased
 );
+export const getStocksEntities = createSelector(
+  getStocksFeatureState,
+  fromStocks.getStocksEntities
+);
 export const getStocksLoaded = createSelector(
   getStocksFeatureState,
   fromStocks.getStocksLoaded

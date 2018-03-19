@@ -20,5 +20,6 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
     this.user$ = this.store.select(fromStore.getUser);
     this.store.dispatch(new fromStore.LoadUser());
+    this.store.dispatch(new fromStore.LoadStocks());
   }
 }

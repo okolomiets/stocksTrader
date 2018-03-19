@@ -308,30 +308,5 @@
       "category": "Technology"
     }
   ],
-  "stocks": [
-    {
-      "market": {
-        "id": 2,
-        "name": "Jensyn Acquistion Corp.",
-        "price": "287.63",
-        "category": "Finance"
-      },
-      "quantity": 2,
-      "total": 575.26,
-      "lastUpdated": "2018-03-17T13:02:55.989Z",
-      "id": 1
-    },
-    {
-      "market": {
-        "id": 5,
-        "name": "Bloomin&#39; Brands, Inc.",
-        "price": "98.54",
-        "category": "Consumer Services"
-      },
-      "quantity": 10,
-      "total": 985.4,
-      "lastUpdated": "2018-03-17T14:10:05.482Z",
-      "id": 2
-    }
-  ]
+  "stocks": []
 }
