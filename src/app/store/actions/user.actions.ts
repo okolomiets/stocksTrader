@@ -6,6 +6,7 @@ export const LOAD_USER = '[User] Load User';
 export const LOAD_USER_FAIL = '[User] Load User Fail';
 export const LOAD_USER_SUCCESS = '[User] Load User Success';
 export const UPDATE_USER_BALANCE = '[User] Update User Balance';
+export const UPDATE_USER_BALANCE_SUCCESS = '[User] Update User Balance Success';
 
 export class LoadUser implements Action {
   readonly type = LOAD_USER;
@@ -23,11 +24,17 @@ export class LoadUserSuccess implements Action {
 
 export class UpdateUserBalance implements Action {
   readonly type = UPDATE_USER_BALANCE;
-  constructor(public payload: number) {}
+  constructor(public payload: User) {}
+}
+
+export class UpdateUserBalanceSuccess implements Action {
+  readonly type = UPDATE_USER_BALANCE_SUCCESS;
+  constructor(public payload: User) {}
 }
 
 export type UserActions =
   | LoadUser
   | LoadUserFail
   | LoadUserSuccess
-  | UpdateUserBalance;
+  | UpdateUserBalance
+  | UpdateUserBalanceSuccess;

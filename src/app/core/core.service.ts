@@ -22,6 +22,13 @@ export class CoreService {
       );
   }
 
+  updateBalance(user): Observable<User> {
+    return this.http
+      .put<User>('/api/user', user).pipe(
+        catchError((error: any) => Observable.throw(error))
+      );
+  }
+
   getMarkets(): Observable<Market[]> {
     return this.http
       .get<Market[]>('/api/markets').pipe(

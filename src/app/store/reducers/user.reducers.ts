@@ -43,11 +43,8 @@ export function reducer(
       };
     }
 
-    case fromUser.UPDATE_USER_BALANCE: {
-      const user = {
-        ...state.user,
-        balance: Number((state.user.balance + action.payload).toFixed(2))
-      };
+    case fromUser.UPDATE_USER_BALANCE_SUCCESS: {
+      const user = action.payload;
       return {
         ...state,
         loaded: true,

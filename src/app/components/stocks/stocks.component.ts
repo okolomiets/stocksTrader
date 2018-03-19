@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 
 import { CoreService } from '../../core/core.service';
 import { AppDialogsService } from '../../shared/dialogs.service';
+
+import { User } from '../../models/user.model';
 import { Stocks } from '../../models/stocks.model';
 
 import { Store } from '@ngrx/store';
@@ -17,6 +20,8 @@ export class StocksComponent implements OnInit {
   displayedColumns = ['id', 'lastUpdated', 'market', 'price', 'quantity', 'total', 'sell'];
   stocks$: Observable<Stocks[]>;
   overallPurchased$: Observable<number>;
+  userBalanceSub: Subscription;
+  user: User;
 
   constructor(
     private coreService: CoreService,
@@ -27,6 +32,9 @@ export class StocksComponent implements OnInit {
   ngOnInit() {
     this.stocks$ = this.store.select(fromStore.getAllStocks);
     this.overallPurchased$ = this.store.select(fromStore.getOverallPurchased);
+    this.userBalanceSub = this.store.select(fromStore.getUser).subscribe((user) => {
+      this.user = user;
+    });
   }
 
   sellStocks(sellStocks: Stocks) {
@@ -42,18 +50,24 @@ export class StocksComponent implements OnInit {
         lastUpdated: new Date()
       };
 
+      const updatedUser = {
+        ...this.user,
+        balance: Number((this.user.balance + soldTotal).toFixed(2))
+      };
+
       if (newStocks.quantity < 0 || newStocks.quantity > oldStocks.quantity) {
         this.appDialogService.openSnackBar('Invalid quantity value!', 'Dismiss');
 
       } else if (newStocks.quantity === 0) {
         this.store.dispatch(new fromStore.DeleteStocks(newStocks));
-        this.store.dispatch(new fromStore.UpdateUserBalance(soldTotal));
+        this.store.dispatch(new fromStore.UpdateUserBalance(updatedUser));
 
       } else {
         this.store.dispatch(new fromStore.UpdateStocks(newStocks));
-        this.store.dispatch(new fromStore.UpdateUserBalance(soldTotal));
+        this.store.dispatch(new fromStore.UpdateUserBalance(updatedUser));
       }
     }).unsubscribe();
+
   }
 
 }

@@ -25,4 +25,17 @@ export class UserEffects {
     })
   );
 
+  @Effect()
+  updateUser$ = this.actions$.ofType(usersActions.UPDATE_USER_BALANCE).pipe(
+    map((action: usersActions.UpdateUserBalance) => action.payload),
+    switchMap((user) => {
+      return this.coreService
+        .updateBalance(user)
+        .pipe(
+          map(updated => new usersActions.UpdateUserBalanceSuccess(updated)),
+          catchError(error => of(new usersActions.LoadUserFail(error)))
+        );
+    })
+  );
+
 }

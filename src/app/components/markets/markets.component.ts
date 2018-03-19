@@ -65,6 +65,12 @@ export class MarketsComponent implements OnInit, OnDestroy, AfterViewInit {
 
       } else if (user.balance - purchase.total > 0) {
 
+        const updatedUser = {
+          ...user,
+          balance: Number((user.balance - purchase.total).toFixed(2))
+        };
+
+
         this.appDialogServiceSub = this.appDialogService.openModal(ConfirmDialogComponent, {
           title: 'Buy Stocks',
           message: `You're going to buy ${purchase.quantity} stock(s) of ${purchase.market.name}`,
@@ -80,10 +86,10 @@ export class MarketsComponent implements OnInit, OnDestroy, AfterViewInit {
                 existed.total += purchase.total;
                 existed.lastUpdated = purchase.lastUpdated;
                 this.store.dispatch(new fromStore.UpdateStocks(existed));
-                this.store.dispatch(new fromStore.UpdateUserBalance(-purchase.total));
+                this.store.dispatch(new fromStore.UpdateUserBalance(updatedUser));
               } else {
                 this.store.dispatch(new fromStore.SaveStocks(purchase));
-                this.store.dispatch(new fromStore.UpdateUserBalance(-purchase.total));
+                this.store.dispatch(new fromStore.UpdateUserBalance(updatedUser));
               }
             }).unsubscribe();
           }
