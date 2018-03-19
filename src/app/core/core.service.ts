@@ -2,93 +2,38 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
-import { tap, map, filter, take, switchMap, catchError } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 
 import { Market } from '../models/market.model';
 import { Stocks } from '../models/stocks.model';
 import { User } from '../models/user.model';
 
-import { AppDialogsService } from '../shared/dialogs.service';
-
-import { ConfirmDialogComponent } from '../shared/confirmDialog/confirmDialog.component';
-
 @Injectable()
 export class CoreService {
   user: User;
-  marketsEntities: {[key: number]: Market};
-  stocksEntities: {[key: number]: Stocks};
   constructor(
-    private http: HttpClient,
-    private appDialogService: AppDialogsService
+    private http: HttpClient
   ) { }
 
   getBalance(): Observable<User> {
     return this.http
       .get<User>('/api/user').pipe(
-        tap((user) => {
-          this.user = user;
-        }),
         catchError((error: any) => Observable.throw(error))
       );
   }
-
-  updateBalance(total): void { } // TODO get rid of
 
   getMarkets(): Observable<Market[]> {
     return this.http
       .get<Market[]>('/api/markets').pipe(
-        tap((markets: Market[]) => {
-          this.marketsEntities = this.setMarketEntities(markets);
-        }),
         catchError((error: any) => Observable.throw(error))
       );
-  }
-
-  // getMarketEntities(): Observable<{[key: number]: Market}> {
-  //   if (this.marketsEntities) {
-  //     return of(this.marketsEntities);
-  //   } else {
-  //     return this.getMarkets().pipe(
-  //       switchMap((markets: Market[]) => {
-  //         this.marketsEntities = this.setMarketEntities(markets);
-  //         return of(this.marketsEntities);
-  //       })
-  //     );
-  //   }
-  // }
-
-  setMarketEntities(markets: Market[]): {[key: number]: Market} {
-    return markets.reduce((entities, market: Market) => {
-      entities[market.id] = market;
-      return entities;
-    }, {});
   }
 
   getStocks(): Observable<Stocks[]> {
     return this.http
       .get<Stocks[]>('/api/stocks').pipe(
-        tap((stocks: Stocks[]) => {
-          this.stocksEntities = this.setStocksEntities(stocks);
-        }),
         catchError((error: any) => Observable.throw(error))
       );
-  }
-
-  getStocksEntities(): Observable<{[key: number]: Stocks}> {
-    return this.getStocks().pipe(
-      switchMap((stocks: Stocks[]) => {
-        this.stocksEntities = this.setStocksEntities(stocks);
-        return of(this.stocksEntities);
-      })
-    );
-  }
-
-  setStocksEntities(stocks: Stocks[]): {[key: number]: Stocks} {
-    return stocks.reduce((entities, stock: Stocks) => {
-      entities[stock.market.id] = stock;
-      return entities;
-    }, {});
   }
 
   saveStocks(stocks: Stocks): Observable<Stocks> {
@@ -112,61 +57,6 @@ export class CoreService {
       .delete<Stocks>(url).pipe(
         catchError((error: any) => Observable.throw(error))
       );
-  }
-
-  buyStocks(purchase) {
-    purchase.total = Number((Number(purchase.market.price) * purchase.quantity).toFixed(2));
-    purchase.lastUpdated = new Date();
-
-    if (this.user.balance - purchase.total > this.user.balance) {
-      this.appDialogService.openSnackBar('Invalid quantity value!', 'Dismiss');
-      return of({});
-
-    } else if (this.user.balance - purchase.total > 0) {
-
-      return this.appDialogService.openModal(ConfirmDialogComponent, {
-        title: 'Buy Stocks',
-        message: `You're going to buy ${purchase.quantity} stock(s) of ${purchase.market.name}`,
-        okButton: 'Buy',
-        cancelButton: 'Cancel'
-      }).pipe(
-        switchMap((confirmed): any => {
-          if (confirmed) {
-
-            return this.getStocksEntities().pipe(
-              map(stocksEntities => stocksEntities[purchase.market.id]),
-              switchMap((existedStocks): any => {
-                if (existedStocks) {
-
-                  existedStocks.quantity += purchase.quantity;
-                  existedStocks.total += purchase.total;
-                  existedStocks.lastUpdated = purchase.lastUpdated;
-
-                  return this.updateStocks(existedStocks).pipe(
-                    tap(() => {
-                      this.updateBalance(-purchase.total);
-                    })
-                  );
-
-                } else {
-                  return this.saveStocks(purchase).pipe(
-                    tap(() => {
-                      this.updateBalance(-purchase.total);
-                    })
-                  );
-                }
-              }),
-              catchError((error: any) => Observable.throw(error))
-            );
-          } else {
-            return of({});
-          }
-        })
-      );
-    } else {
-      this.appDialogService.openSnackBar('Not enough balance to buy!', 'Dismiss');
-      return of({});
-    }
   }
 
 }
