@@ -78,7 +78,7 @@ export function reducer(
       const newStocks = action.payload;
       const stocks = [...state.stocks, newStocks];
       const entities = stocks.reduce((obj, stock: Stocks) => {
-        obj[stock.market.id] = stock;
+        obj[stock.id] = stock;
         return obj;
       }, {});
       const overallPurchased = stocks.reduce((purchased, stock: Stocks) => {

@@ -6,9 +6,12 @@ import { Store } from '@ngrx/store';
 import * as fromStore from '../../store';
 
 import { Market } from '../../models/market.model';
+import { User } from '../../models/user.model';
+import { Stocks } from '../../models/stocks.model';
 
 import { AppDialogsService } from '../../shared/dialogs.service';
 import { ConfirmDialogComponent } from '../../shared/confirmDialog/confirmDialog.component';
+
 
 @Component({
   selector: 'app-markets',
@@ -21,6 +24,10 @@ export class MarketsComponent implements OnInit, OnDestroy, AfterViewInit {
   maxQuantity = 1000000;
   appDialogServiceSub: Subscription;
   getMarketsSub: Subscription;
+  userBalanceSub: Subscription;
+  stocksSub: Subscription;
+  user: User;
+  stocks: Stocks[];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -31,7 +38,14 @@ export class MarketsComponent implements OnInit, OnDestroy, AfterViewInit {
     private changeDetector: ChangeDetectorRef
   ) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.userBalanceSub = this.store.select(fromStore.getUser).subscribe((user) => {
+      this.user = user;
+    });
+    this.stocksSub = this.store.select(fromStore.getAllStocks).subscribe(stocks => {
+      this.stocks = stocks;
+    });
+  }
 
   ngAfterViewInit() {
     this.getMarketsSub = this.store.select(fromStore.getAllMarkets).subscribe(markets => {
@@ -46,6 +60,8 @@ export class MarketsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnDestroy() {
     this.getMarketsSub.unsubscribe();
+    this.userBalanceSub.unsubscribe();
+    this.stocksSub.unsubscribe();
 
     if (this.appDialogServiceSub) {
       this.appDialogServiceSub.unsubscribe();
@@ -56,45 +72,40 @@ export class MarketsComponent implements OnInit, OnDestroy, AfterViewInit {
     purchase.total = Number((Number(purchase.market.price) * purchase.quantity).toFixed(2));
     purchase.lastUpdated = new Date();
 
-    this.store.select(fromStore.getUser).subscribe((user) => {
-      if (user.balance - purchase.total > user.balance) {
-        this.appDialogService.openSnackBar('Invalid quantity value!', 'Dismiss');
+    if (this.user.balance - purchase.total > this.user.balance) {
+      this.appDialogService.openSnackBar('Invalid quantity value!', 'Dismiss');
 
-      } else if (user.balance - purchase.total > 0) {
+    } else if (this.user.balance - purchase.total > 0) {
 
-        const updatedUser = {
-          ...user,
-          balance: Number((user.balance - purchase.total).toFixed(2))
-        };
+      const updatedUser = {
+        ...this.user,
+        balance: Number((this.user.balance - purchase.total).toFixed(2))
+      };
 
+      this.appDialogServiceSub = this.appDialogService.openModal(ConfirmDialogComponent, {
+        title: 'Buy Stocks',
+        message: `You're going to buy ${purchase.quantity} stock(s) of ${purchase.market.name}`,
+        okButton: 'Buy',
+        cancelButton: 'Cancel'
+      }).subscribe((confirmed: boolean) => {
+        if (confirmed) {
+          const existed = this.stocks.find(stocks => stocks.market.id === purchase.market.id);
+          if (existed) {
 
-        this.appDialogServiceSub = this.appDialogService.openModal(ConfirmDialogComponent, {
-          title: 'Buy Stocks',
-          message: `You're going to buy ${purchase.quantity} stock(s) of ${purchase.market.name}`,
-          okButton: 'Buy',
-          cancelButton: 'Cancel'
-        }).subscribe((confirmed: boolean) => {
-          if (confirmed) {
-            this.store.select(fromStore.getStocksEntities).subscribe(entities => {
-              const existed = entities[purchase.market.id];
-              if (existed) {
-
-                existed.quantity += purchase.quantity;
-                existed.total += purchase.total;
-                existed.lastUpdated = purchase.lastUpdated;
-                this.store.dispatch(new fromStore.UpdateStocks(existed));
-                this.store.dispatch(new fromStore.UpdateUserBalance(updatedUser));
-              } else {
-                this.store.dispatch(new fromStore.SaveStocks(purchase));
-                this.store.dispatch(new fromStore.UpdateUserBalance(updatedUser));
-              }
-            }).unsubscribe();
+            existed.quantity += purchase.quantity;
+            existed.total += purchase.total;
+            existed.lastUpdated = purchase.lastUpdated;
+            this.store.dispatch(new fromStore.UpdateStocks(existed));
+            this.store.dispatch(new fromStore.UpdateUserBalance(updatedUser));
+          } else {
+            this.store.dispatch(new fromStore.SaveStocks(purchase));
+            this.store.dispatch(new fromStore.UpdateUserBalance(updatedUser));
           }
-        });
-      } else {
-        this.appDialogService.openSnackBar('Not enough balance to buy!', 'Dismiss');
-      }
-    }).unsubscribe();
+        }
+      });
+    } else {
+      this.appDialogService.openSnackBar('Not enough balance to buy!', 'Dismiss');
+    }
   }
 
 }
