@@ -5,7 +5,6 @@ import { of } from 'rxjs/observable/of';
 import { map, switchMap, catchError } from 'rxjs/operators';
 
 import * as stocksActions from '../actions/stocks.actions';
-import * as userActions from '../actions/user.actions';
 import { CoreService } from '../../core/core.service';
 
 @Injectable()

@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 
-import { CoreService } from '../../core/core.service';
 import { AppDialogsService } from '../../shared/dialogs.service';
 
 import { User } from '../../models/user.model';
@@ -24,7 +23,6 @@ export class StocksComponent implements OnInit {
   user: User;
 
   constructor(
-    private coreService: CoreService,
     private appDialogService: AppDialogsService,
     private store: Store<fromStore.AppState>
   ) { }

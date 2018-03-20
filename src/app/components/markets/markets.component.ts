@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatSort, MatPaginator, MatTableDataSource } from '@angular/material';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -6,8 +6,6 @@ import { Store } from '@ngrx/store';
 import * as fromStore from '../../store';
 
 import { Market } from '../../models/market.model';
-
-import { CoreService } from '../../core/core.service';
 
 import { AppDialogsService } from '../../shared/dialogs.service';
 import { ConfirmDialogComponent } from '../../shared/confirmDialog/confirmDialog.component';
@@ -28,7 +26,6 @@ export class MarketsComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(
-    private coreService: CoreService,
     private appDialogService: AppDialogsService,
     private store: Store<fromStore.AppState>,
     private changeDetector: ChangeDetectorRef
