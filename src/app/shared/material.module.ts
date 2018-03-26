@@ -9,6 +9,7 @@ import {
   MatTableModule,
   MatSnackBarModule,
   MatPaginatorModule,
+  MatSortModule,
   MatDialogModule
 } from '@angular/material';
 
@@ -22,6 +23,7 @@ import {
     MatTableModule,
     MatSnackBarModule,
     MatPaginatorModule,
+    MatSortModule,
     MatDialogModule
   ],
   exports: [
@@ -33,6 +35,7 @@ import {
     MatTableModule,
     MatSnackBarModule,
     MatPaginatorModule,
+    MatSortModule,
     MatDialogModule
   ]
 })
